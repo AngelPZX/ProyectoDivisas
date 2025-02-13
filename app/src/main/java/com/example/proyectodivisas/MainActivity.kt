@@ -4,6 +4,7 @@ package com.example.proyectodivisas
 import androidx.activity.compose.setContent
 import com.example.proyectodivisas.ui.theme.ProyectoDivisasTheme
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.work.Constraints
@@ -33,5 +34,6 @@ class MainActivity : ComponentActivity() {
             .build()
 
         WorkManager.getInstance(this).enqueue(syncWorkRequest)
+        Log.d("MainActivity", "WorkManager ha programado SyncWorker") // Verificar programación
     }
 }
