@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.proyectodivisas.model.TipoCambio
 import com.example.proyectodivisas.model.TipoCambioDao
 
-@Database(entities = [TipoCambio::class], version = 1)
+@Database(entities = [TipoCambio::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun tipoCambioDao(): TipoCambioDao
 
@@ -21,7 +21,8 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "tipo_cambio_database"
-                ).build()
+                ).fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }
