@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "tipo_cambio")
 data class TipoCambio(
-    @PrimaryKey val idTipoCambio: Int,
+    @PrimaryKey(autoGenerate = true) val idTipoCambio: Int,
     val codigoDeMoneda: String,
     val valor: Double,
     val time_last_update: Long,
