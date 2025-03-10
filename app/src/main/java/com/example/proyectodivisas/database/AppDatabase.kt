@@ -4,10 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.proyectodivisas.model.TipoCambio
 import com.example.proyectodivisas.model.TipoCambioDao
 
-@Database(entities = [TipoCambio::class], version = 2)
+@Database(entities = [TipoCambio::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun tipoCambioDao(): TipoCambioDao
 
@@ -22,6 +24,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "tipo_cambio_database"
                 ).fallbackToDestructiveMigration()
+                    .addMigrations(MIGRATION_2_3) // Agrega la migración
                     .build()
                 INSTANCE = instance
                 instance
@@ -29,3 +32,12 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 }
+
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        // Aquí defines cómo migrar de la versión 2 a la 3
+        // Por ejemplo, si agregaste un nuevo campo:
+        database.execSQL("ALTER TABLE tipo_cambio ADD COLUMN nuevo_campo TEXT")
+    }
+}
+

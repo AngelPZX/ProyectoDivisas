@@ -1,39 +1,22 @@
 package com.example.proyectodivisas
 
-
-import androidx.activity.compose.setContent
-import com.example.proyectodivisas.ui.theme.ProyectoDivisasTheme
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.work.Constraints
-import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkManager
-import com.example.proyectodivisas.worker.SyncWorker
-import java.util.concurrent.TimeUnit
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import com.example.proyectodivisas.ui.MainScreen
+import com.example.proyectodivisas.ui.theme.ProyectoDivisasTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ProyectoDivisasTheme {
-                // UI aquí
+                Surface(color = MaterialTheme.colorScheme.background) {
+                    MainScreen()
+                }
             }
         }
-
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
-        val syncWorkRequest = PeriodicWorkRequest.Builder(
-            SyncWorker::class.java,
-            1, TimeUnit.HOURS
-        ).setConstraints(constraints)
-            .build()
-
-        WorkManager.getInstance(this).enqueue(syncWorkRequest)
-        Log.d("MainActivity", "WorkManager ha programado SyncWorker") // Verificar programación
     }
 }

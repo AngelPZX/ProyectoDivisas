@@ -8,6 +8,5 @@ data class TipoCambio(
     @PrimaryKey(autoGenerate = true) val idTipoCambio: Int,
     val codigoDeMoneda: String,
     val valor: Double,
-    val time_last_update: Long,
-    val time_next_update: Long
+    val fecha: Long // Asegúrate de que este campo esté correctamente definido
 )

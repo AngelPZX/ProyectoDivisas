@@ -78,4 +78,25 @@ dependencies {
 
     // WorkManager
     implementation(libs.androidx.work.runtime.ktx)
+
+
+   // implementation("io.github.bytebeats:compose-charts:0.1.2")
+
+    implementation("androidx.compose.material3:material3:1.0.0")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.0.5")
+    implementation("androidx.compose.foundation:foundation:1.0.5")
+    implementation("androidx.compose.material:material-icons-extended:1.0.5")
+    //implementation("com.github.tehras:charts:0.2.3")
+
+    //implementation("com.github.tehras:charts:Tag")
+
+    //implementation("io.github.bytebeats:compose-charts:0.1.0")
+
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0") // MPAndroidChart
+
+
+
+
+
+    // Ejemplo de librería para gráficas
 }

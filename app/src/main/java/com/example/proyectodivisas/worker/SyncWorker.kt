@@ -10,32 +10,32 @@ import com.example.proyectodivisas.network.ExchangeRateApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-
 class SyncWorker(appContext: Context, params: WorkerParameters) : CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
             Log.d("SyncWorker", "Iniciando sincronización...")
+
             val response = ExchangeRateApiService.api.getLatestRates()
-            Log.d("SyncWorker", "Respuesta de la API recibida: ${response.conversion_rates}") // Ver datos de la API
+            Log.d("SyncWorker", "Respuesta de la API recibida: ${response.conversion_rates}")
+
             val database = AppDatabase.getDatabase(applicationContext)
             val tipoCambioDao = database.tipoCambioDao()
 
             response.conversion_rates.forEach { (codigoDeMoneda, valor) ->
                 val tipoCambio = TipoCambio(
-                    idTipoCambio = 0, // Auto-generado por Room
+                    idTipoCambio = 0, // Room generará automáticamente el ID
                     codigoDeMoneda = codigoDeMoneda,
                     valor = valor,
-                    time_last_update = response.time_last_update_unix,
-                    time_next_update = response.time_next_update_unix
+                    fecha = System.currentTimeMillis() // Usa la fecha actual
                 )
                 tipoCambioDao.insert(tipoCambio)
-                Log.d("SyncWorker", "Insertado: $codigoDeMoneda -> $valor") // Ver inserción en la base de datos
-
+                Log.d("SyncWorker", "Insertado: $codigoDeMoneda -> $valor")
             }
-            Log.d("SyncWorker", "Sincronización completada con éxito") // Mensaje de éxito
+
+            Log.d("SyncWorker", "Sincronización completada con éxito")
             Result.success()
         } catch (e: Exception) {
-            Log.e("SyncWorker", "Error en la sincronización", e) // Mensaje de error
+            Log.e("SyncWorker", "Error en la sincronización", e)
             Result.failure()
         }
     }
